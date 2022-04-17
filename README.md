@@ -1,4 +1,8 @@
-# `@metamask/eth-sig-util`
+# eth-sig-util-signTypedData-v5
+
+The v5 method is available if you just try to call v4 with this module. Yes, this module is a prototype hack. Probably don't use it unless you know what you're doing.
+
+A For of `@metamask/eth-sig-util`
 
 A small collection of Ethereum signing functions.
 
