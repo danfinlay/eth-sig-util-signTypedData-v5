@@ -41,12 +41,12 @@ export interface TypedDataV1Field {
  *
  * V3 is based on EIP-712, except that arrays and recursive data structures are not supported.
  *
- * V4 is based on EIP-712, and includes full support of arrays and recursive data structures.
+ * V5 is based on EIP-712, and includes full support of arrays and recursive data structures.
  */
 export enum SignTypedDataVersion {
   V1 = 'V1',
   V3 = 'V3',
-  V4 = 'V4',
+  V5 = 'V5',
 }
 
 export interface MessageTypeProperty {
@@ -170,14 +170,14 @@ function encodeField(
   name: string,
   type: string,
   value: any,
-  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
 ): [type: string, value: any] {
-  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V4]);
+  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V5]);
 
   if (types[type] !== undefined) {
     return [
       'bytes32',
-      version === SignTypedDataVersion.V4 && value == null // eslint-disable-line no-eq-null
+      version === SignTypedDataVersion.V5 && value == null // eslint-disable-line no-eq-null
         ? '0x0000000000000000000000000000000000000000000000000000000000000000'
         : keccak(encodeData(type, value, types, version)),
     ];
@@ -202,7 +202,7 @@ function encodeField(
   if (type.lastIndexOf(']') === type.length - 1) {
     if (version === SignTypedDataVersion.V3) {
       throw new Error(
-        'Arrays are unimplemented in encodeData; use V4 extension',
+        'Arrays are unimplemented in encodeData; use V5 extension',
       );
     }
     const parsedType = type.slice(0, type.lastIndexOf('['));
@@ -247,9 +247,9 @@ function encodeData(
   primaryType: string,
   data: Record<string, unknown>,
   types: Record<string, MessageTypeProperty[]>,
-  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
 ): Buffer {
-  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V4]);
+  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V5]);
 
   const encodedTypes = ['bytes32'];
   const encodedValues: unknown[] = [hashType(primaryType, types)];
@@ -341,9 +341,9 @@ function hashStruct(
   primaryType: string,
   data: Record<string, unknown>,
   types: Record<string, MessageTypeProperty[]>,
-  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
 ): Buffer {
-  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V4]);
+  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V5]);
 
   return keccak(encodeData(primaryType, data, types, version));
 }
@@ -398,9 +398,9 @@ function sanitizeData<T extends MessageTypes>(
  */
 function eip712Hash<T extends MessageTypes>(
   typedData: TypedMessage<T>,
-  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+  version: SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
 ): Buffer {
-  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V4]);
+  validateVersion(version, [SignTypedDataVersion.V3, SignTypedDataVersion.V5]);
 
   const sanitizedData = sanitizeData(typedData);
   const parts = [Buffer.from('1901', 'hex')];
@@ -509,7 +509,7 @@ function _typedSignatureHash(typedData: TypedDataV1): Buffer {
  * V3 is based on [EIP-712](https://eips.ethereum.org/EIPS/eip-712), except that arrays and
  * recursive data structures are not supported.
  *
- * V4 is based on [EIP-712](https://eips.ethereum.org/EIPS/eip-712), and includes full support of
+ * V5 is based on [EIP-712](https://eips.ethereum.org/EIPS/eip-712), and includes full support of
  * arrays and recursive data structures.
  *
  * @param options - The signing options.
@@ -542,7 +542,7 @@ export function signTypedData<
       ? _typedSignatureHash(data as TypedDataV1)
       : TypedDataUtils.eip712Hash(
           data as TypedMessage<T>,
-          version as SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+          version as SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
         );
   const sig = ecsign(messageHash, privateKey);
   return concatSig(toBuffer(sig.v), sig.r, sig.s);
@@ -583,7 +583,7 @@ export function recoverTypedSignature<
       ? _typedSignatureHash(data as TypedDataV1)
       : TypedDataUtils.eip712Hash(
           data as TypedMessage<T>,
-          version as SignTypedDataVersion.V3 | SignTypedDataVersion.V4,
+          version as SignTypedDataVersion.V3 | SignTypedDataVersion.V5,
         );
   const publicKey = recoverPublicKey(messageHash, signature);
   const sender = publicToAddress(publicKey);

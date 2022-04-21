@@ -103,16 +103,16 @@ describe('TypedDataUtils.encodeData', function () {
   // separately with `null` and `undefined` input. Lastly, there are more tests for various other
   // edge cases.
   //
-  // The behavior differs between V3 and V4, so each test has been run for each version. We also
-  // have a block of tests to verify that signatures that match between V3 and V4 remain identical,
-  // and that signatures that differ between V3 and V4 remain different.
+  // The behavior differs between V3 and V5, so each test has been run for each version. We also
+  // have a block of tests to verify that signatures that match between V3 and V5 remain identical,
+  // and that signatures that differ between V3 and V5 remain different.
   //
   // To make reading and maintaining these tests easier, the order will be the same throughout all
   // 4 of these test suites. Here is a table showing that order, as well as the compatibility of
-  // each input type with V3 and V4 `encodeData`. The table also shows whether the signature is
+  // each input type with V3 and V5 `encodeData`. The table also shows whether the signature is
   // identical between versions in the cases where the input can be encoded in both versions.
   //
-  // | Input type                                           | V3 | V4 | Matching Signatures |
+  // | Input type                                           | V3 | V5 | Matching Signatures |
   // | ---------------------------------------------------- | -- | -- | ------------------- |
   // | Auto-generated tests from the example data           | Y  | Y  | Y                   |
   // | Arrays using the example data                        | N  | Y  |                     |
@@ -204,7 +204,7 @@ describe('TypedDataUtils.encodeData', function () {
                   SignTypedDataVersion.V3,
                 ).toString('hex'),
               ).toThrow(
-                'Arrays are unimplemented in encodeData; use V4 extension',
+                'Arrays are unimplemented in encodeData; use V5 extension',
               );
             },
           );
@@ -307,7 +307,7 @@ describe('TypedDataUtils.encodeData', function () {
           types,
           SignTypedDataVersion.V3,
         ).toString('hex'),
-      ).toThrow('Arrays are unimplemented in encodeData; use V4 extension');
+      ).toThrow('Arrays are unimplemented in encodeData; use V5 extension');
     });
 
     it('should ignore extra unspecified message properties', function () {
@@ -642,7 +642,7 @@ describe('TypedDataUtils.encodeData', function () {
     });
   });
 
-  describe('V4', function () {
+  describe('V5', function () {
     describe('example data', function () {
       // Reassigned to silence "no-loop-func" ESLint rule
       // It was complaining because it saw that `it` and `expect` as "modified variables from the outer scope"
@@ -667,7 +667,7 @@ describe('TypedDataUtils.encodeData', function () {
                   'Message',
                   message,
                   types,
-                  SignTypedDataVersion.V4,
+                  SignTypedDataVersion.V5,
                 ).toString('hex'),
               ).toMatchSnapshot();
             });
@@ -690,7 +690,7 @@ describe('TypedDataUtils.encodeData', function () {
                     'Message',
                     message,
                     types,
-                    SignTypedDataVersion.V4,
+                    SignTypedDataVersion.V5,
                   ).toString('hex'),
                 ).toThrow(errorMessage);
               },
@@ -707,7 +707,7 @@ describe('TypedDataUtils.encodeData', function () {
                 'Message',
                 message,
                 types,
-                SignTypedDataVersion.V4,
+                SignTypedDataVersion.V5,
               ).toString('hex'),
             ).toMatchSnapshot();
           });
@@ -745,7 +745,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -792,7 +792,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -832,7 +832,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -866,14 +866,14 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
       const messageWithExtraProperties = { ...message, foo: 'bar' };
       const signatureWithExtraProperties = TypedDataUtils.encodeData(
         primaryType,
         messageWithExtraProperties,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(originalSignature).toBe(signatureWithExtraProperties);
@@ -911,7 +911,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow(`Cannot read property 'toArray' of null`);
     });
@@ -948,7 +948,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('missing value for field length of type int32');
     });
@@ -983,7 +983,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -1018,7 +1018,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('missing value for field contents of type string');
     });
@@ -1050,7 +1050,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -1082,7 +1082,7 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -1098,7 +1098,7 @@ describe('TypedDataUtils.encodeData', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('Unsupported or invalid type: function');
     });
@@ -1112,7 +1112,7 @@ describe('TypedDataUtils.encodeData', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('No type definition specified: Message');
     });
@@ -1128,7 +1128,7 @@ describe('TypedDataUtils.encodeData', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('Unsupported or invalid type: foo');
     });
@@ -1145,7 +1145,7 @@ describe('TypedDataUtils.encodeData', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -1163,15 +1163,15 @@ describe('TypedDataUtils.encodeData', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
   });
 
   // This test suite covers all cases where data should be encoded identically
-  // on V3 and V4
-  describe('V3/V4 identical encodings', function () {
+  // on V3 and V5
+  describe('V3/V5 identical encodings', function () {
     describe('example data', function () {
       // Reassigned to silence "no-loop-func" ESLint rule
       // It was complaining because it saw that `it` and `expect` as "modified variables from the outer scope"
@@ -1201,7 +1201,7 @@ describe('TypedDataUtils.encodeData', function () {
                 'Message',
                 message,
                 types,
-                SignTypedDataVersion.V4,
+                SignTypedDataVersion.V5,
               ).toString('hex');
 
               _expect(v3Signature).toBe(v4Signature);
@@ -1246,7 +1246,7 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -1283,11 +1283,11 @@ describe('TypedDataUtils.encodeData', function () {
         types,
         SignTypedDataVersion.V3,
       ).toString('hex');
-      const originalV4Signature = TypedDataUtils.encodeData(
+      const originalV5Signature = TypedDataUtils.encodeData(
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
       const messageWithExtraProperties = { ...message, foo: 'bar' };
       const v3signatureWithExtraProperties = TypedDataUtils.encodeData(
@@ -1300,10 +1300,10 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         messageWithExtraProperties,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
-      expect(originalV3Signature).toBe(originalV4Signature);
+      expect(originalV3Signature).toBe(originalV5Signature);
       expect(v3signatureWithExtraProperties).toBe(
         v4signatureWithExtraProperties,
       );
@@ -1344,7 +1344,7 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -1367,7 +1367,7 @@ describe('TypedDataUtils.encodeData', function () {
         'Message',
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -1375,9 +1375,9 @@ describe('TypedDataUtils.encodeData', function () {
   });
 
   // This test suite covers all cases where data should be encoded differently
-  // on V3 and V4
-  describe('V3/V4 encoding differences', () => {
-    // Recursive data structures are encoded differently because V4 encodes
+  // on V3 and V5
+  describe('V3/V5 encoding differences', () => {
+    // Recursive data structures are encoded differently because V5 encodes
     // missing custom typed properties as 0 byte32 rather than omitting it,
     // and all recursive data structures must include a missing custom typed
     // property (the recursive one), or they'd be infinitely large or cyclic.
@@ -1429,13 +1429,13 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).not.toBe(v4Signature);
     });
 
-    // Missing custom type properties are omitted in V3, but encoded as 0 (bytes32) in V4
+    // Missing custom type properties are omitted in V3, but encoded as 0 (bytes32) in V5
     it('should encode missing custom type properties differently', function () {
       const types = {
         Person: [
@@ -1467,7 +1467,7 @@ describe('TypedDataUtils.encodeData', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).not.toBe(v4Signature);
@@ -1578,7 +1578,7 @@ describe('TypedDataUtils.hashStruct', function () {
                   SignTypedDataVersion.V3,
                 ).toString('hex'),
               ).toThrow(
-                'Arrays are unimplemented in encodeData; use V4 extension',
+                'Arrays are unimplemented in encodeData; use V5 extension',
               );
             },
           );
@@ -1681,7 +1681,7 @@ describe('TypedDataUtils.hashStruct', function () {
           types,
           SignTypedDataVersion.V3,
         ).toString('hex'),
-      ).toThrow('Arrays are unimplemented in encodeData; use V4 extension');
+      ).toThrow('Arrays are unimplemented in encodeData; use V5 extension');
     });
 
     it('should ignore extra unspecified message properties', function () {
@@ -2016,7 +2016,7 @@ describe('TypedDataUtils.hashStruct', function () {
     });
   });
 
-  describe('V4', function () {
+  describe('V5', function () {
     describe('example data', function () {
       // Reassigned to silence "no-loop-func" ESLint rule
       // It was complaining because it saw that `it` and `expect` as "modified variables from the outer scope"
@@ -2041,7 +2041,7 @@ describe('TypedDataUtils.hashStruct', function () {
                   'Message',
                   message,
                   types,
-                  SignTypedDataVersion.V4,
+                  SignTypedDataVersion.V5,
                 ).toString('hex'),
               ).toMatchSnapshot();
             });
@@ -2064,7 +2064,7 @@ describe('TypedDataUtils.hashStruct', function () {
                     'Message',
                     message,
                     types,
-                    SignTypedDataVersion.V4,
+                    SignTypedDataVersion.V5,
                   ).toString('hex'),
                 ).toThrow(errorMessage);
               },
@@ -2081,7 +2081,7 @@ describe('TypedDataUtils.hashStruct', function () {
                 'Message',
                 message,
                 types,
-                SignTypedDataVersion.V4,
+                SignTypedDataVersion.V5,
               ).toString('hex'),
             ).toMatchSnapshot();
           });
@@ -2119,7 +2119,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2166,7 +2166,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2206,7 +2206,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2240,14 +2240,14 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
       const messageWithExtraProperties = { ...message, foo: 'bar' };
       const signatureWithExtraProperties = TypedDataUtils.hashStruct(
         primaryType,
         messageWithExtraProperties,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(originalSignature).toBe(signatureWithExtraProperties);
@@ -2285,7 +2285,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow(`Cannot read property 'toArray' of null`);
     });
@@ -2322,7 +2322,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('missing value for field length of type int32');
     });
@@ -2357,7 +2357,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2392,7 +2392,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('missing value for field contents of type string');
     });
@@ -2424,7 +2424,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2456,7 +2456,7 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2472,7 +2472,7 @@ describe('TypedDataUtils.hashStruct', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('Unsupported or invalid type: function');
     });
@@ -2486,7 +2486,7 @@ describe('TypedDataUtils.hashStruct', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('No type definition specified: Message');
     });
@@ -2502,7 +2502,7 @@ describe('TypedDataUtils.hashStruct', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toThrow('Unsupported or invalid type: foo');
     });
@@ -2519,7 +2519,7 @@ describe('TypedDataUtils.hashStruct', function () {
           'Message',
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
@@ -2537,15 +2537,15 @@ describe('TypedDataUtils.hashStruct', function () {
           primaryType,
           message,
           types,
-          SignTypedDataVersion.V4,
+          SignTypedDataVersion.V5,
         ).toString('hex'),
       ).toMatchSnapshot();
     });
   });
 
   // This test suite covers all cases where data should be encoded identically
-  // on V3 and V4
-  describe('V3/V4 identical encodings', function () {
+  // on V3 and V5
+  describe('V3/V5 identical encodings', function () {
     describe('example data', function () {
       // Reassigned to silence "no-loop-func" ESLint rule
       // It was complaining because it saw that `it` and `expect` as "modified variables from the outer scope"
@@ -2575,7 +2575,7 @@ describe('TypedDataUtils.hashStruct', function () {
                 'Message',
                 message,
                 types,
-                SignTypedDataVersion.V4,
+                SignTypedDataVersion.V5,
               ).toString('hex');
 
               _expect(v3Signature).toBe(v4Signature);
@@ -2620,7 +2620,7 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -2657,11 +2657,11 @@ describe('TypedDataUtils.hashStruct', function () {
         types,
         SignTypedDataVersion.V3,
       ).toString('hex');
-      const originalV4Signature = TypedDataUtils.hashStruct(
+      const originalV5Signature = TypedDataUtils.hashStruct(
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
       const messageWithExtraProperties = { ...message, foo: 'bar' };
       const v3signatureWithExtraProperties = TypedDataUtils.hashStruct(
@@ -2674,10 +2674,10 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         messageWithExtraProperties,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
-      expect(originalV3Signature).toBe(originalV4Signature);
+      expect(originalV3Signature).toBe(originalV5Signature);
       expect(v3signatureWithExtraProperties).toBe(
         v4signatureWithExtraProperties,
       );
@@ -2718,7 +2718,7 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -2741,7 +2741,7 @@ describe('TypedDataUtils.hashStruct', function () {
         'Message',
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).toBe(v4Signature);
@@ -2749,9 +2749,9 @@ describe('TypedDataUtils.hashStruct', function () {
   });
 
   // This test suite covers all cases where data should be encoded differently
-  // on V3 and V4
-  describe('V3/V4 encoding differences', () => {
-    // Recursive data structures are encoded differently because V4 encodes
+  // on V3 and V5
+  describe('V3/V5 encoding differences', () => {
+    // Recursive data structures are encoded differently because V5 encodes
     // missing custom typed properties as 0 byte32 rather than omitting it,
     // and all recursive data structures must include a missing custom typed
     // property (the recursive one), or they'd be infinitely large or cyclic.
@@ -2803,13 +2803,13 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).not.toBe(v4Signature);
     });
 
-    // Missing custom type properties are omitted in V3, but encoded as 0 (bytes32) in V4
+    // Missing custom type properties are omitted in V3, but encoded as 0 (bytes32) in V5
     it('should hash missing custom type properties differently', function () {
       const types = {
         Person: [
@@ -2841,7 +2841,7 @@ describe('TypedDataUtils.hashStruct', function () {
         primaryType,
         message,
         types,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       ).toString('hex');
 
       expect(v3Signature).not.toBe(v4Signature);
@@ -3627,7 +3627,7 @@ describe('TypedDataUtils.eip712Hash', function () {
     });
   });
 
-  describe('V4', function () {
+  describe('V5', function () {
     it('should hash a minimal valid typed message', function () {
       // This represents the most basic "typed message" that is valid according to our types.
       // It's not a very useful message (it's totally empty), but it's complete according to the
@@ -3641,7 +3641,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           domain: {},
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -3655,7 +3655,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           types: {},
           primaryType: 'EIP712Domain',
         } as any,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
       const minimalValidHash = TypedDataUtils.eip712Hash(
         {
@@ -3666,7 +3666,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           domain: {},
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(minimalHash.toString('hex')).toBe(
@@ -3684,7 +3684,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           domain: {},
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
       const extraPropertiesHash = TypedDataUtils.eip712Hash(
         {
@@ -3697,7 +3697,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           extra: 'stuff',
           moreExtra: 1,
         } as any,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(minimalValidHash.toString('hex')).toBe(
@@ -3742,7 +3742,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           },
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -3790,7 +3790,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           },
           message: {},
         } as any,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -3839,7 +3839,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           },
           message: {},
         } as any,
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -3885,7 +3885,7 @@ describe('TypedDataUtils.eip712Hash', function () {
             data: 'Hello!',
           },
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -3931,7 +3931,7 @@ describe('TypedDataUtils.eip712Hash', function () {
             data: 'Hello!',
           },
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
       const hashWithoutMessage = TypedDataUtils.eip712Hash(
         {
@@ -3970,7 +3970,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           },
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hashWithMessage.toString('hex')).toBe(
@@ -3993,7 +3993,7 @@ describe('TypedDataUtils.eip712Hash', function () {
           domain: {},
           message: {},
         },
-        SignTypedDataVersion.V4,
+        SignTypedDataVersion.V5,
       );
 
       expect(hash.toString('hex')).toMatchSnapshot();
@@ -4752,7 +4752,7 @@ describe('signTypedData', function () {
                   version: SignTypedDataVersion.V3,
                 }),
               ).toThrow(
-                'Arrays are unimplemented in encodeData; use V4 extension',
+                'Arrays are unimplemented in encodeData; use V5 extension',
               );
             },
           );
@@ -4871,7 +4871,7 @@ describe('signTypedData', function () {
           },
           version: SignTypedDataVersion.V3,
         }),
-      ).toThrow('Arrays are unimplemented in encodeData; use V4 extension');
+      ).toThrow('Arrays are unimplemented in encodeData; use V5 extension');
     });
 
     it('should ignore extra unspecified message properties', function () {
@@ -5252,7 +5252,7 @@ describe('signTypedData', function () {
     });
   });
 
-  describe('V4', function () {
+  describe('V5', function () {
     // This first group of tests mirrors the `TypedDataUtils.eip712Hash` tests, because all of
     // those test cases are relevant here as well.
 
@@ -5270,7 +5270,7 @@ describe('signTypedData', function () {
           domain: {},
           message: {},
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(signature).toMatchSnapshot();
@@ -5285,7 +5285,7 @@ describe('signTypedData', function () {
           types: {},
           primaryType: 'EIP712Domain',
         } as any,
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
       const minimalValidSignature = signTypedData({
         privateKey,
@@ -5297,7 +5297,7 @@ describe('signTypedData', function () {
           domain: {},
           message: {},
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(minimalSignature).toBe(minimalValidSignature);
@@ -5314,7 +5314,7 @@ describe('signTypedData', function () {
           domain: {},
           message: {},
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
       const extraPropertiesSignature = signTypedData({
         privateKey,
@@ -5328,7 +5328,7 @@ describe('signTypedData', function () {
           extra: 'stuff',
           moreExtra: 1,
         } as any,
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(minimalValidSignature).toBe(extraPropertiesSignature);
@@ -5372,7 +5372,7 @@ describe('signTypedData', function () {
           },
           message: {},
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(signature).toMatchSnapshot();
@@ -5421,7 +5421,7 @@ describe('signTypedData', function () {
           },
           message: {},
         } as any,
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(signature).toMatchSnapshot();
@@ -5471,7 +5471,7 @@ describe('signTypedData', function () {
           },
           message: {},
         } as any,
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(signature).toMatchSnapshot();
@@ -5518,7 +5518,7 @@ describe('signTypedData', function () {
             data: 'Hello!',
           },
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(signature).toMatchSnapshot();
@@ -5556,7 +5556,7 @@ describe('signTypedData', function () {
                     domain: {},
                     message,
                   },
-                  version: SignTypedDataVersion.V4,
+                  version: SignTypedDataVersion.V5,
                 }),
               ).toMatchSnapshot();
             });
@@ -5585,7 +5585,7 @@ describe('signTypedData', function () {
                       domain: {},
                       message,
                     },
-                    version: SignTypedDataVersion.V4,
+                    version: SignTypedDataVersion.V5,
                   }),
                 ).toThrow(errorMessage);
               },
@@ -5608,7 +5608,7 @@ describe('signTypedData', function () {
                   domain: {},
                   message,
                 },
-                version: SignTypedDataVersion.V4,
+                version: SignTypedDataVersion.V5,
               }),
             ).toMatchSnapshot();
           });
@@ -5651,7 +5651,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -5703,7 +5703,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -5748,7 +5748,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -5787,7 +5787,7 @@ describe('signTypedData', function () {
           domain: {},
           message,
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
       const messageWithExtraProperties = { ...message, foo: 'bar' };
       const signatureWithExtraProperties = signTypedData({
@@ -5798,7 +5798,7 @@ describe('signTypedData', function () {
           domain: {},
           message: messageWithExtraProperties,
         },
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(originalSignature).toBe(signatureWithExtraProperties);
@@ -5841,7 +5841,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow(`Cannot read property 'toArray' of null`);
     });
@@ -5883,7 +5883,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow('missing value for field length of type int32');
     });
@@ -5923,7 +5923,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -5963,7 +5963,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow('missing value for field contents of type string');
     });
@@ -6000,7 +6000,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -6037,7 +6037,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -6059,7 +6059,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow('Unsupported or invalid type: function');
     });
@@ -6080,7 +6080,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           } as any,
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow('No type definition specified: Message');
     });
@@ -6102,7 +6102,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toThrow('Unsupported or invalid type: foo');
     });
@@ -6125,7 +6125,7 @@ describe('signTypedData', function () {
             domain: {},
             message,
           },
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toMatchSnapshot();
     });
@@ -6292,7 +6292,7 @@ describe('recoverTypedSignature', function () {
     });
   });
 
-  describe('V4', function () {
+  describe('V5', function () {
     // This is a signature of the message in the test below that was created using the private key
     // in the top-level `privateKey` variable.
     const exampleSignature =
@@ -6319,7 +6319,7 @@ describe('recoverTypedSignature', function () {
         recoverTypedSignature({
           data: typedMessage,
           signature: exampleSignature,
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toBe(address);
     });
@@ -6343,14 +6343,14 @@ describe('recoverTypedSignature', function () {
       const signature = signTypedData({
         privateKey,
         data: typedMessage,
-        version: SignTypedDataVersion.V4,
+        version: SignTypedDataVersion.V5,
       });
 
       expect(
         recoverTypedSignature({
           data: typedMessage,
           signature,
-          version: SignTypedDataVersion.V4,
+          version: SignTypedDataVersion.V5,
         }),
       ).toBe(address);
     });
