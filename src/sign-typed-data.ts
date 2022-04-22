@@ -215,7 +215,7 @@ function encodeField(
       );
 
       if (typeValuePairs.length === 0) {
-        const zero = new Buffer.alloc(32);
+        const zero = Buffer.alloc(32);
         return ['bytes32', zero];
       }
 
