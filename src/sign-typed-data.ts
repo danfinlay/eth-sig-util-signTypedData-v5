@@ -213,6 +213,12 @@ function encodeField(
       const typeValuePairs = value.map((item) =>
         encodeData(parsedType, item, types, version),
       );
+
+      if (typeValuePairs.length === 0) {
+        const zero = new Buffer.alloc(32);
+        return ['bytes32', zero];
+      }
+
       return ['bytes32', keccak(Buffer.concat(typeValuePairs))];
     }
 
